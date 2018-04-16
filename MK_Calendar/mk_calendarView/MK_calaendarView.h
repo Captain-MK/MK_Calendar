@@ -13,4 +13,5 @@
 @end
 @interface MK_calaendarView : UIView
 @property(nonatomic,weak) id <MK_calaendarViewDelegate> delegate;
+@property (copy, nonatomic) NSString *endDate;
 @end

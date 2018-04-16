@@ -61,6 +61,7 @@
     if (!_calendar) {
         _calendar = [[NSBundle mainBundle]loadNibNamed:NSStringFromClass([MK_calaendarView class]) owner:self options:nil].lastObject;
         _calendar.delegate = self;
+//        _calendar.endDate = @"2018.8.14";
         _calendar.frame = CGRectMake(0, screen_height, screen_width, 356);
     }
     return _calendar;

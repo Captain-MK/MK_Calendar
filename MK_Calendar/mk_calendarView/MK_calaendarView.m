@@ -33,11 +33,11 @@
 }
 - (IBAction)handleTapSureBtn:(id)sender {
     if (self.date1 == nil && self.date2 == nil) {
-//        [ITTPromptView showMessage:@"请选择日期" andFrameY:0];
+//        [showMessage:@"请选择日期"];
         return;
     }
     if (self.date1 == nil) {
-//        [ITTPromptView showMessage:@"日期选择错误" andFrameY:0];
+//        [showMessage:@"日期选择错误"];
         return;
     }
     NSComparisonResult compare=[self.gregorian compareDate:self.date1 toDate:self.date2 toUnitGranularity:NSCalendarUnitDay];
@@ -62,7 +62,16 @@
 }
 - (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar
 {
-    return [self.gregorian dateByAddingUnit:NSCalendarUnitMonth value:10 toDate:[NSDate date] options:0];
+    if (self.endDate.length == 0 || !self.endDate) {
+        return [self.gregorian dateByAddingUnit:NSCalendarUnitMonth value:12 toDate:[NSDate date] options:0];
+    }else{
+        NSDate *endDate = [self.dateFormatter dateFromString:self.endDate];
+        if ([[NSDate new] compare:endDate] == NSOrderedDescending) {
+            return [self.gregorian dateByAddingUnit:NSCalendarUnitMonth value:12 toDate:[NSDate date] options:0];
+        }else{
+            return [self.dateFormatter dateFromString:self.endDate];
+        }
+    }
 }
 - (NSString *)calendar:(FSCalendar *)calendar titleForDate:(NSDate *)date
 {
@@ -192,6 +201,12 @@
         }
         if (date==self.date1) {
             rangeCell.titleLabel.textColor = [UIColor colorWithHexString:@"ff5533"];
+        }
+    }
+    NSDate *endDate = [self.dateFormatter dateFromString:self.endDate];
+    if ([[NSDate new] compare:endDate] != NSOrderedDescending) {
+        if ([date compare:endDate] == NSOrderedDescending) {
+            rangeCell.titleLabel.textColor = [UIColor colorWithHexString:@"999999"];
         }
     }
 }
